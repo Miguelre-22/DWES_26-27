@@ -6,24 +6,28 @@ declare(strict_types=1);
 // Importar librerías
 require_once __DIR__ . '/../src/datos.php';
 require_once __DIR__ . '/../src/funciones.php';
+
 // Poner la zona horaria
+
 $zonaHoraria = new DateTimeZone('Europe/Madrid');
+
 // 3.1. Leer parámetros
 $genero = $_GET['genero'] ?? 'todos';
 $plataforma = $_GET['plataforma'] ?? 'todas';
 $q = $_GET['q'] ?? '';
 $orden = $_GET['orden'] ?? 'titulo';
+
 // 3.2. Normalizar y comprobar que los valores recibidos estén dentro de los esperados
 $generoNormalizado = normalizarTexto($genero);
 $plataformaNormalizado = normalizarTexto($plataforma);
 $qNormalizado = normalizarTexto($q);
 $ordenNormalizado = normalizarTexto($orden);
 
-if ($generoNormalizado !== 'accion' && $generoNormalizado !== 'rol' && $generoNormalizado !== 'carreras' && $generoNormalizado !== 'estrategia' && $generoNormalizado !== 'aventura' && $generoNormalizado !== 'simulacion' && $generoNormalizado !== 'terror'){
+if ($generoNormalizado !== 'accion' && $generoNormalizado !== 'rol' && $generoNormalizado !== 'carreras' && $generoNormalizado !== 'estrategia' && $generoNormalizado !== 'aventura' && $generoNormalizado !== 'simulacion' && $generoNormalizado !== 'terror') {
     $generoNormalizado = 'todos';
 }
 
-if ($plataformaNormalizado !== 'xsx' && $plataformaNormalizado !== 'sw' && $plataformaNormalizado !== 'ps5' && $plataformaNormalizado !== 'pc'){
+if ($plataformaNormalizado !== 'xsx' && $plataformaNormalizado !== 'sw' && $plataformaNormalizado !== 'ps5' && $plataformaNormalizado !== 'pc') {
     $plataformaNormalizado = 'todas';
 }
 // 3.3. Filtros
@@ -43,14 +47,16 @@ $ventasOrdenadas = $ventasSemana;
 
 
 $timestampConsulta = time();
-$fechaConsulta = new DateTimeImmutable('today'); // COMPLETAR
+$fechaConsulta = new DateTimeImmutable('now', $zonaHoraria); // COMPLETAR
 ?>
 <!doctype html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <title>Catálogo de videojuegos</title>
 </head>
+
 <body>
     <h1>Catálogo de videojuegos</h1>
 
@@ -117,6 +123,8 @@ $fechaConsulta = new DateTimeImmutable('today'); // COMPLETAR
         <?php endforeach; ?>
     </ul>
 
-    <p>Consulta generada: </p>
+    <!-- Faltaba transformarlo en cadena -->
+    <p>Consulta generada: <?= $fechaConsulta->format("d/m/y H:i") ?></p>
 </body>
+
 </html>

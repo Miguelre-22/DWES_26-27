@@ -6,6 +6,7 @@ require_once __DIR__ . '/../src/funciones.php';
 
 $id = (int) ($_GET['id'] ?? 0);
 
+// Esto?
 $videojuego = $videojuegos;
 
 $videojuegoPorId = buscarPorId($videojuego, $id);
@@ -27,12 +28,15 @@ if ($videojuegoPorId === null) {
     exit;
 }
 
+// La zona horaria?
 // Prepara las fechas y los valores que necesita la ficha.
 $fechaLanzamiento = new DateTimeImmutable($videojuegoPorId['fechaLanzamiento']);// De dónde saco la fecha??
 $hoy = new DateTimeImmutable();
 $diasTranscurridos = $fechaLanzamiento->diff($hoy); //0? Habrá que calcular algo, no?
 $finNovedad = null;
+// Falta el cálculo de novedad
 $estado = '';
+
 
 // COMPLETAR los cálculos anteriores utilizando los datos del videojuego.
 ?>
