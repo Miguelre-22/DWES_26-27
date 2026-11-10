@@ -1,0 +1,21 @@
+{
+    "name": "docencia/biblioteca-formularios",
+    "description": "Práctica final de DWES UT3 con formularios y portadas",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.0",
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "src/Soporte/formularios.php",
+            "src/Soporte/archivos.php",
+            "src/Soporte/html.php"
+        ]
+    }
+}
