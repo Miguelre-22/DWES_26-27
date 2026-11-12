@@ -9,6 +9,6 @@ trait GeneraEtiqueta
     public function etiqueta(string $prefijo = ''): string
     {
         // TODO T1: construye la etiqueta consultando id() y nombre().
-        return $prefijo . ': ' . $this->id() . ' · ' . $this->nombre();
+        return $prefijo . $this->id() . ' · ' . $this->nombre();
     }
 }

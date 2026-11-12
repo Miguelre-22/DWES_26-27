@@ -1,15 +1,18 @@
 <?php
-    declare(strict_types=1);
 
-    namespace Clase\Alquileres\Modelo;
+declare(strict_types=1);
 
-    class AlquilerPatinete extends Alquiler {
-        public function modalidad(): string {
-            return 'patinete';
-        }
+namespace Clase\Alquileres\Modelo;
 
-        protected function tarifaDiaria(): int {
-            return 1000;
-        }
+class AlquilerPatinete extends Alquiler
+{
+    public function modalidad(): string
+    {
+        return 'patinete';
     }
-?>
+
+    protected function tarifaDiaria(): int
+    {
+        return 1000;
+    }
+}

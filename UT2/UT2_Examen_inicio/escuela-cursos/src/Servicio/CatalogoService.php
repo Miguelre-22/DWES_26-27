@@ -10,27 +10,26 @@ use Escuela\Curso\Modelo\{Curso, EstadoCurso};
 
 final class CatalogoService
 {
-    public function __construct(private CursoRepository $repository)
-    {
-    }
+    public function __construct(private CursoRepository $repository) {}
 
     public function filtrar(
         string $texto = '',
         ?EstadoCurso $estado = null,
         bool $soloConPlazas = false
-    ): array
-    {
+    ): array {
         $texto = mb_strtolower(trim($texto), 'UTF-8');
 
         // TODO F1: filtra los cursos mediante array_filter.
         $filtrado = array_filter(
             $this->repository->todos(),
-            fn (Curso $curso): bool =>
-                $texto === str_contains($curso->nombre(), $texto)
-                // Me faltan comparaciones
+            fn(Curso $curso): bool =>
+            str_contains($curso->nombreNormalizado(), $texto) &&
+                ($estado === null || $curso->estado() === $estado) &&
+                (!$soloConPlazas || ($curso->plazasLibres() > 0 && $curso->estado() === EstadoCurso::Abierto))
+            // Me faltan comparaciones
         );
 
-        return $filtrado;
+        return array_values($filtrado);
     }
 
     public function ordenar(array $cursos): array
@@ -40,10 +39,9 @@ final class CatalogoService
 
         usort(
             $copia,
-            fn (Curso $a, Curso $b): int =>
-                (($a->precioPlaza() <=> $b->precioPlaza()) === 0)
-                    ? ($a->id() <=> $b->id())
-                    : ($a->precioPlaza() <=> $b->precioPlaza())
+            fn(Curso $a, Curso $b): int => (($a->precioPlaza() <=> $b->precioPlaza()) === 0)
+                ? ($a->id() <=> $b->id())
+                : ($a->precioPlaza() <=> $b->precioPlaza())
         );
 
         return $copia;
@@ -52,22 +50,25 @@ final class CatalogoService
     public function etiquetas(array $cursos, string $prefijo = 'Curso: '): array
     {
         // TODO F3: array_map y arrow function.
-        throw new \LogicException('Pendiente F3');
+        return array_map(
+            fn(Curso $c) => $c->etiqueta($prefijo),
+            $cursos
+        );
     }
 
     public function resumen(array $acumulado, array $cursos): array
     {
         // TODO F4: calcula las tres cifras mediante array_reduce.
-        throw new \LogicException('Pendiente F4');
-        // $resultado = array_reduce(
-        //     $cursos,
-        //     function (array $acumulado, array $cursos): array {
-
-        //         return $acumulado;
-        //     },
-        //     ['cantidad' => 0, 'libres' => 0, 'importeCentimos' => 0]
-        // );
-        // return $resultado;
+        return array_reduce(
+            $cursos,
+            function (array $acumulado, Curso $c): array {
+                $acumulado['cantidad']++;
+                $acumulado['libres'] += $c->plazasLibres();
+                $acumulado['importeCentimos'] += $c->precioPlaza() * $c->ocupadas();
+                return $acumulado;
+            },
+            ['cantidad' => 0, 'libres' => 0, 'importeCentimos' => 0]
+        );
     }
 
     public function buscarOpciones(int $plazas, int $presupuestoCentimos): array
@@ -79,13 +80,13 @@ final class CatalogoService
 
         $candidatos = array_filter(
             $this->repository->todos(),
-            fn (Curso $curso): bool =>
-                $curso->estado() === EstadoCurso::Abierto
+            fn(Curso $curso): bool =>
+            $curso->estado() === EstadoCurso::Abierto
                 && $curso->plazasLibres() >= $plazas
         );
 
         $propuestas = array_map(
-            fn (Curso $curso): array => [
+            fn(Curso $curso): array => [
                 'id' => $curso->id(),
                 'importeCentimos' => $curso->precioPlaza() * $plazas,
                 'libresDespues' => $curso->plazasLibres() - $plazas
@@ -106,14 +107,13 @@ final class CatalogoService
         );
 
         usort(
-            $propuestas,
-            fn (array $a, array $b): int =>
-                (($a['importeCentimos'] <=> $b['importeCentimos']) === 0)
-                    ? ($a['id'] <=> $b['id'])
-                    : []
+            $resultado,
+            fn(array $a, array $b): int => (($a['importeCentimos'] <=> $b['importeCentimos']) === 0)
+                ? ($a['id'] <=> $b['id'])
+                : []
         );
 
-        return $resultado['opciones'];
+        return $resultado;
     }
 
     private function requerido(int $id): Curso

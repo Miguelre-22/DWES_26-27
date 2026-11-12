@@ -1,15 +1,18 @@
 <?php
-    declare(strict_types=1);
 
-    namespace Clase\Alquileres\Modelo;
+declare(strict_types=1);
 
-    class AlquilerBicicleta extends Alquiler {
-        public function modalidad(): string {
-            return 'bicicleta';
-        }
+namespace Clase\Alquileres\Modelo;
 
-        protected function tarifaDiaria(): int {
-            return 500;
-        }
+class AlquilerBicicleta extends Alquiler
+{
+    public function modalidad(): string
+    {
+        return 'bicicleta';
     }
-?>
+
+    protected function tarifaDiaria(): int
+    {
+        return 500;
+    }
+}
