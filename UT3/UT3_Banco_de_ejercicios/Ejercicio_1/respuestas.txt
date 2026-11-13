@@ -1,0 +1,13 @@
+GET /libros.php?q=Dune
+
+$_GET = ['q' => 'Dune']
+$_SERVER['REQUEST_METHOD'] = 'GET'
+
+
+POST /libro-editar.php?id=3 con cuerpo titulo=Solaris
+
+El identificador se recibe en $_GET['id'] = '3'
+El título se recibe en $_POST['titulo'] = 'Solaris'
+$_SERVER['REQUEST_METHOD'] = 'POST'
+
+Una petición POST también puede llevar parámetros en la URL porque la URL y el cuerpo son partes distintas de la petición HTTP. PHP rellena $_GET con la query string de la URL sea cual sea el método, y $_POST con los campos que llegan en el cuerpo.

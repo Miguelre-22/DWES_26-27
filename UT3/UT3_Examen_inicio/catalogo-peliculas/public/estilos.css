@@ -1,0 +1,235 @@
+:root {
+    color-scheme: dark;
+    --fondo: #181217;
+    --panel: #231b24;
+    --campo: #19141b;
+    --borde: #594653;
+    --texto: #f8edf3;
+    --secundario: #dac6d1;
+    --acento: #ffcb82;
+    --acento-activo: #ffe0ae;
+    --error: #ffd4da;
+    font: 100%/1.55 "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at top, #432334, transparent 40rem), var(--fondo);
+    color: var(--texto);
+}
+
+.contenedor {
+    width: min(64rem, calc(100% - 2rem));
+    margin-inline: auto;
+    padding-block: clamp(1.5rem, 5vw, 4rem);
+}
+
+.cabecera {
+    border-block-start: 3px solid var(--acento);
+    border-block-end: 1px solid var(--borde);
+    padding-block: clamp(1.2rem, 4vw, 2rem);
+    margin-block-end: 1.5rem;
+}
+
+h1, h2 {
+    margin: 0;
+    line-height: 1.12;
+}
+
+h1 {
+    font: 700 clamp(2rem, 6vw, 4rem)/1.08 Georgia, serif;
+    letter-spacing: -.025em;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: var(--acento);
+}
+
+p {
+    margin-block: 0 1rem;
+}
+
+a {
+    color: var(--acento);
+    text-underline-offset: .2em;
+}
+
+a:hover {
+    color: var(--acento-activo);
+}
+
+:focus-visible {
+    outline: 3px solid var(--acento);
+    outline-offset: 3px;
+}
+
+.acciones {
+    margin-block: 1rem 0;
+}
+
+.cabecera .acciones a, form button[type="submit"] {
+    display: inline-block;
+    padding: .65rem 1rem;
+    border: 1px solid var(--acento);
+    border-radius: .5rem;
+    background: var(--acento);
+    color: #24161d;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.cabecera .acciones a:hover, form button[type="submit"]:hover {
+    background: var(--acento-activo);
+    color: #24161d;
+}
+
+form, .ficha, .tabla, .vacio, [role="alert"] {
+    margin-block: 0 1.25rem;
+    border: 1px solid var(--borde);
+    border-radius: .8rem;
+    background: var(--panel);
+}
+
+form, .ficha, .vacio {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: end;
+}
+
+form > p {
+    min-width: 0;
+    margin: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: .35rem;
+    font-weight: 650;
+}
+
+input, select, button {
+    font: inherit;
+}
+
+input:not([type="submit"]), select {
+    width: 100%;
+    min-height: 2.8rem;
+    border: 1px solid var(--borde);
+    border-radius: .45rem;
+    background: var(--campo);
+    color: var(--texto);
+    padding: .55rem .7rem;
+}
+
+input[type="file"] {
+    font-size: .9rem;
+    padding: .35rem;
+}
+
+input::file-selector-button {
+    margin-inline-end: .55rem;
+    padding: .35rem .55rem;
+    border: 0;
+    border-radius: .3rem;
+    background: #4c3545;
+    color: var(--texto);
+    font: inherit;
+    cursor: pointer;
+}
+
+form button[type="submit"] {
+    cursor: pointer;
+}
+
+form button[type="submit"] {
+    grid-column: 1 / -1;
+    justify-self: start;
+}
+
+[role="alert"] {
+    padding: .85rem 1rem .85rem 2.3rem;
+    background: #452331;
+    border-color: #b66c81;
+    color: var(--error);
+}
+
+.tabla {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 32rem;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    padding: .85rem 1rem;
+    vertical-align: top;
+}
+
+th {
+    background: #352630;
+    color: var(--acento);
+}
+
+td {
+    border-block-start: 1px solid var(--borde);
+    color: var(--secundario);
+}
+
+td:first-child {
+    color: var(--texto);
+    font-weight: 700;
+}
+
+tbody tr:nth-child(even) {
+    background: #2a202a;
+}
+
+.ficha dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: .45rem 1rem;
+    margin-block: 1.25rem;
+}
+
+.ficha dt {
+    color: var(--secundario);
+    font-weight: 650;
+}
+
+.ficha dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.ficha img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--borde);
+    border-radius: .6rem;
+}
+
+@media (max-width: 36rem) {
+    form, .ficha dl {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ficha dd:not(:last-child) {
+        margin-bottom: .45rem;
+    }
+}
