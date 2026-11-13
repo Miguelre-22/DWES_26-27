@@ -8,7 +8,8 @@ use PHPUnit\Framework\TestCase;
 final class CatalogoTest extends TestCase
 {
     // COMPLETAR 8. Creación válida y estado del objeto.
-    public function testCompletar8(): void {
+    public function testCompletar8(): void
+    {
         $pelicula = new Pelicula(" Dune ", " Denis Villeneuve ", 155, 'ciencia');
 
         $this->assertSame("Dune", $pelicula->titulo());
